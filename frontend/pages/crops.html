@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriConnect - My Crops</title>
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="../css/crops.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation Link -->
+        <div class="nav-back">
+            <a href="dashboard.html">&larr; Back to Dashboard</a>
+        </div>
+
+        <h1>🌾 My Crops</h1>
+
+        <!-- Message Box for Success / Errors -->
+        <div id="messageBox" class="message hidden"></div>
+
+        <!-- Farm Selection Section -->
+        <div class="card">
+            <div class="input-group">
+                <label for="farmSelect">Select Farm</label>
+                <select id="farmSelect">
+                    <option value="">-- Choose a Farm First --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Add / Edit Crop Form Card (Hidden until a farm is selected) -->
+        <div id="cropFormCard" class="card form-card hidden">
+            <h3 id="formTitle">Add New Crop</h3>
+            <form id="cropForm">
+                <!-- Hidden input to store Crop ID when editing -->
+                <input type="hidden" id="cropId">
+
+                <div class="input-group">
+                    <label for="cropName">Crop Name *</label>
+                    <input type="text" id="cropName" placeholder="e.g. Wheat, Rice" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="variety">Variety</label>
+                    <input type="text" id="variety" placeholder="e.g. Lokwan, Basmati">
+                </div>
+
+                <div class="input-group">
+                    <label for="season">Season</label>
+                    <select id="season">
+                        <option value="Kharif">Kharif</option>
+                        <option value="Rabi">Rabi</option>
+                        <option value="Zaid">Zaid</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="areaInAcres">Area (in Acres)</label>
+                    <input type="number" step="any" id="areaInAcres" placeholder="e.g. 2.5">
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="submitBtn" class="btn-primary">Add Crop</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary hidden" onclick="resetForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Crops List Section -->
+        <h2>Crops List</h2>
+        <div id="cropsList" class="crops-grid">
+            <p class="empty-text">Please select a farm above to view or add crops.</p>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="../js/crops.js"></script>
+</body>
+</html>

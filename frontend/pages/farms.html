@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriConnect - My Farms</title>
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="../css/farms.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation Link -->
+        <div class="nav-back">
+            <a href="dashboard.html">&larr; Back to Dashboard</a>
+        </div>
+
+        <h1>🌱 My Farms</h1>
+
+        <!-- Message Box for Success / Errors -->
+        <div id="messageBox" class="message hidden"></div>
+
+        <!-- Add / Edit Farm Form Card -->
+        <div class="card form-card">
+            <h3 id="formTitle">Add New Farm</h3>
+            <form id="farmForm">
+                <!-- Hidden input to store Farm ID when editing -->
+                <input type="hidden" id="farmId">
+
+                <div class="input-group">
+                    <label for="farmName">Farm Name</label>
+                    <input type="text" id="farmName" placeholder="e.g. North Field" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="e.g. Village Rampur" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="areaInAcres">Area (in Acres)</label>
+                    <input type="number" step="any" id="areaInAcres" placeholder="e.g. 5.5" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="submitBtn" class="btn-primary">Add Farm</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary hidden" onclick="resetForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Farms List Section -->
+        <h2>Your Farm List</h2>
+        <div id="farmsList" class="farms-grid">
+            <!-- Farms will be dynamically loaded here via JavaScript -->
+            <p class="loading-text">Loading farms...</p>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="../js/farms.js"></script>
+</body>
+</html>

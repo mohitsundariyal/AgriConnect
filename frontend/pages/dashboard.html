@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriConnect - Dashboard</title>
+    <!-- CSS file link -->
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <header class="navbar">
+        <h1>🌾 AgriConnect</h1>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Welcome Message -->
+        <section class="welcome-section">
+            <h2 id="welcomeText">Welcome, Farmer</h2>
+            <p>Manage your smart farming activities below.</p>
+        </section>
+
+        <!-- Clickable Cards Grid -->
+        <div class="cards-grid">
+            <div class="card" onclick="location.href='farms.html'">
+                <h3>🌱 My Farms</h3>
+                <p>View and manage your agricultural lands.</p>
+            </div>
+
+            <div class="card" onclick="location.href='crops.html'">
+                <h3>🌾 My Crops</h3>
+                <p>Check crop status, health, and updates.</p>
+            </div>
+
+            <div class="card" onclick="location.href='expenses.html'">
+                <h3>💰 Expenses</h3>
+                <p>Track your farming costs and budgets.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS file link -->
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

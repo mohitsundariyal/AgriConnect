@@ -2,7 +2,11 @@ package com.agriconnect.agriconnect_backend.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "crop")
 public class Crop {

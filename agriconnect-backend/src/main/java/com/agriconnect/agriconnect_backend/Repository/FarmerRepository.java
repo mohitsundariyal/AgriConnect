@@ -12,4 +12,6 @@ public interface FarmerRepository extends JpaRepository<Farmer, Long> {
     Optional<Farmer> findByEmail(String email);
 
     boolean existsByEmail(String email);
+
+    String findByPassword(String password);
 }
