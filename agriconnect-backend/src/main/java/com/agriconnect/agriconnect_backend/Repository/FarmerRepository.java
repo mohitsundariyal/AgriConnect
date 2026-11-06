@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface FarmerRepository extends JpaRepository<Farmer, Long> {
+public interface FarmerRepository extends JpaRepository<Farmer, Long> { //save() , findById()  ,count() , deleteUserById()
 
     Optional<Farmer> findByEmail(String email);
 

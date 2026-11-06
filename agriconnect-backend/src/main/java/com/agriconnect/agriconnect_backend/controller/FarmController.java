@@ -21,28 +21,34 @@ public class FarmController {
         this.farmService = farmService;
     }
 
+    // Add a new farm
     @PostMapping
-    public ResponseEntity<FarmResponse> create(@Valid @RequestBody FarmRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(farmService.createFarm(request));
+    public ResponseEntity<FarmResponse> addFarm(@Valid @RequestBody FarmRequest request) {
+        FarmResponse response = farmService.createFarm(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // Get all farms of one farmer
     @GetMapping("/farmer/{farmerId}")
-    public List<FarmResponse> getByFarmer(@PathVariable Long farmerId) {
+    public List<FarmResponse> getFarmsByFarmer(@PathVariable Long farmerId) {
         return farmService.getFarmsByFarmer(farmerId);
     }
 
+    // Get one farm
     @GetMapping("/{id}")
-    public FarmResponse getOne(@PathVariable Long id) {
+    public FarmResponse getFarm(@PathVariable Long id) {
         return farmService.getFarm(id);
     }
 
+    // Update a farm
     @PutMapping("/{id}")
-    public FarmResponse update(@PathVariable Long id, @Valid @RequestBody FarmRequest request) {
+    public FarmResponse updateFarm(@PathVariable Long id, @Valid @RequestBody FarmRequest request) {
         return farmService.updateFarm(id, request);
     }
 
+    // Delete a farm
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteFarm(@PathVariable Long id) {
         farmService.deleteFarm(id);
         return ResponseEntity.ok(Map.of("message", "Farm deleted"));
     }

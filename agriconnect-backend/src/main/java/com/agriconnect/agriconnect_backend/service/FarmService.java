@@ -47,6 +47,8 @@ public class FarmService {
         return FarmResponse.from(findFarm(id));
     }
 
+
+
     public FarmResponse updateFarm(Long id, FarmRequest request) {
         Farm farm = findFarm(id);
         farm.setFarmName(request.getFarmName().trim());

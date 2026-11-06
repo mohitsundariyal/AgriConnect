@@ -7,7 +7,13 @@
 }
 
 body {
-    background-color: #f1f8e9; /* Green farming light background */
+    background-color: #f1f8e9;
+    background-image:
+        linear-gradient(rgba(21, 57, 27, 0.42), rgba(21, 57, 27, 0.42)),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2000&q=85");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     color: #333;
     display: flex;
     justify-content: center;

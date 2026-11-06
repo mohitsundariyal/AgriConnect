@@ -1,131 +1,148 @@
-// Backend API Base URL
-const API_BASE = "http://localhost:8080/api/farms";
+// ---------- Setup ----------
+const BASE_URL = "http://localhost:8080";
 
-// 1. Check authentication: localStorage mein "id" hona chahiye
+// Farmer must be logged in
 const farmerId = localStorage.getItem("id");
+if (!farmerId) {
+    window.location.href = "login.html";
+}
 
-
-// DOM Elements
 const farmForm = document.getElementById("farmForm");
 const farmIdInput = document.getElementById("farmId");
 const farmNameInput = document.getElementById("farmName");
 const locationInput = document.getElementById("location");
 const areaInput = document.getElementById("areaInAcres");
+const formTitle = document.getElementById("formTitle");
 const submitBtn = document.getElementById("submitBtn");
 const cancelBtn = document.getElementById("cancelBtn");
-const formTitle = document.getElementById("formTitle");
+const farmsList = document.getElementById("farmsList");
 const messageBox = document.getElementById("messageBox");
-const farmsListContainer = document.getElementById("farmsList");
 
-// Helper function to show messages on page instead of alert()
-function showMessage(text, type) {
-    messageBox.textContent = text;
-    messageBox.className = `message ${type}`;
-    setTimeout(() => {
-        messageBox.className = "message hidden";
-    }, 4000); // Hide after 4 seconds
+let farms = []; // farms of this farmer
+
+// ---------- Helper functions ----------
+
+// Call the backend. Throws an error (with status) if the response is not OK
+async function api(path, method = "GET", body = null) {
+    const response = await fetch(BASE_URL + path, {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : null
+    });
+    if (!response.ok) {
+        const error = new Error("HTTP " + response.status);
+        error.status = response.status;
+        throw error;
+    }
+    return response.json().catch(() => ({}));
 }
 
-// Fetch and display farms on page load
-document.addEventListener("DOMContentLoaded", fetchFarms);
+// Show message for 3 seconds (type = "success" or "error")
+function showMessage(text, type) {
+    messageBox.textContent = text;
+    messageBox.className = "message " + type;
+    setTimeout(function () {
+        messageBox.className = "message hidden";
+    }, 3000);
+}
 
-async function fetchFarms() {
+// Prevent HTML injection when showing user text
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text ?? "";
+    return div.innerHTML;
+}
+
+// ---------- Load and show farms ----------
+async function loadFarms() {
     try {
-        const response = await fetch(`${API_BASE}/farmer/${farmerId}`);
-        if (!response.ok) throw new Error("Failed to load farms");
-
-        const farms = await response.json();
-        renderFarms(farms);
+        farms = await api("/api/farms/farmer/" + farmerId);
+        showFarms();
     } catch (error) {
-        console.error(error);
-        farmsListContainer.innerHTML = `<p class="empty-text">Could not load farms. Is the server running?</p>`;
+        farmsList.innerHTML = '<p class="empty-text">Could not load farms. Is the backend running?</p>';
     }
 }
 
-// Render farms list as cards
-function renderFarms(farms) {
-    if (!farms || farms.length === 0) {
-        farmsListContainer.innerHTML = `<p class="empty-text">No farms added yet.</p>`;
+function showFarms() {
+    if (farms.length === 0) {
+        farmsList.innerHTML = '<p class="empty-text">No farms yet. Add your first farm above.</p>';
         return;
     }
 
-    farmsListContainer.innerHTML = "";
-    farms.forEach(farm => {
-        const farmCard = document.createElement("div");
-        farmCard.className = "farm-item";
-        farmCard.innerHTML = `
-            <div class="farm-info">
-                <h4>${farm.farmName}</h4>
-                <p>📍 Location: ${farm.location}</p>
-                <p>📐 Area: ${farm.areaInAcres} Acres</p>
-            </div>
-            <div class="farm-actions">
-                <button class="btn-edit" onclick="editFarm('${farm.id}', '${encodeURIComponent(farm.farmName)}', '${encodeURIComponent(farm.location)}', '${farm.areaInAcres}')">Edit</button>
-                <button class="btn-delete" onclick="deleteFarm('${farm.id}')">Delete</button>
-            </div>
-        `;
-        farmsListContainer.appendChild(farmCard);
-    });
+    farmsList.innerHTML = farms.map(function (farm) {
+        return `
+            <div class="card farm-card">
+                <h3>${escapeHtml(farm.farmName)}</h3>
+                <p>📍 ${escapeHtml(farm.location)}</p>
+                <p>📐 ${farm.areaInAcres} acres</p>
+                <div class="button-group">
+                    <button class="btn-secondary" data-action="edit" data-id="${farm.id}">Edit</button>
+                    <button class="btn-danger" data-action="delete" data-id="${farm.id}">Delete</button>
+                </div>
+            </div>`;
+    }).join("");
 }
 
-// Handle Form Submission (Add or Update)
-farmForm.addEventListener("submit", async function(e) {
-    e.preventDefault();
+// ---------- Add / Update farm ----------
+farmForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-    const id = farmIdInput.value;
     const farmData = {
-        farmerId: farmerId,
+        farmerId: Number(farmerId),
         farmName: farmNameInput.value.trim(),
         location: locationInput.value.trim(),
-        areaInAcres: parseFloat(areaInput.value)
+        areaInAcres: Number(areaInput.value)
     };
 
-    try {
-        let response;
-        if (id) {
-            // PUT Request for Update
-            response = await fetch(`${API_BASE}/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(farmData)
-            });
-        } else {
-            // POST Request for Create
-            response = await fetch(API_BASE, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(farmData)
-            });
-        }
+    const editingId = farmIdInput.value; // empty = adding new farm
 
-        if (response.ok) {
-            showMessage(id ? "Farm updated successfully!" : "Farm added successfully!", "success");
-            resetForm();
-            fetchFarms(); // Refresh list
+    try {
+        if (editingId) {
+            await api("/api/farms/" + editingId, "PUT", farmData);
+            showMessage("Farm updated successfully", "success");
         } else {
-            const errData = await response.json().catch(() => ({}));
-            showMessage(errData.message || "Operation failed. Please try again.", "error");
+            await api("/api/farms", "POST", farmData);
+            showMessage("Farm added successfully", "success");
         }
+        resetForm();
+        loadFarms();
     } catch (error) {
-        console.error(error);
-        showMessage("Server error connection failed.", "error");
+        showMessage("Could not save farm. Please check the details.", "error");
     }
 });
 
-// Fill form with values for Editing
-function editFarm(id, name, location, area) {
-    farmIdInput.value = id;
-    farmNameInput.value = decodeURIComponent(name);
-    locationInput.value = decodeURIComponent(location);
-    areaInput.value = area;
+// ---------- Edit / Delete buttons ----------
+farmsList.addEventListener("click", async function (event) {
+    const button = event.target.closest("button");
+    if (!button) return;
 
-    formTitle.textContent = "Edit Farm";
-    submitBtn.textContent = "Update Farm";
-    cancelBtn.classList.remove("hidden");
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    const id = button.dataset.id;
 
-// Reset Form to Add Mode
+    if (button.dataset.action === "edit") {
+        const farm = farms.find(function (f) { return String(f.id) === id; });
+        farmIdInput.value = farm.id;
+        farmNameInput.value = farm.farmName;
+        locationInput.value = farm.location;
+        areaInput.value = farm.areaInAcres;
+        formTitle.textContent = "Edit Farm";
+        submitBtn.textContent = "Update Farm";
+        cancelBtn.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    if (button.dataset.action === "delete") {
+        if (!confirm("Are you sure you want to delete this farm?")) return;
+        try {
+            await api("/api/farms/" + id, "DELETE");
+            showMessage("Farm deleted", "success");
+            loadFarms();
+        } catch (error) {
+            showMessage("Cannot delete this farm. Remove its crops and expenses first.", "error");
+        }
+    }
+});
+
+// ---------- Reset form (also used by the Cancel button in HTML) ----------
 function resetForm() {
     farmForm.reset();
     farmIdInput.value = "";
@@ -134,25 +151,5 @@ function resetForm() {
     cancelBtn.classList.add("hidden");
 }
 
-// Delete Farm with confirm()
-async function deleteFarm(id) {
-    if (!confirm("Are you sure you want to delete this farm?")) {
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_BASE}/${id}`, {
-            method: "DELETE"
-        });
-
-        if (response.ok) {
-            showMessage("Farm deleted successfully", "success");
-            fetchFarms(); // Refresh list
-        } else {
-            showMessage("Failed to delete farm", "error");
-        }
-    } catch (error) {
-        console.error(error);
-        showMessage("Server error connection failed.", "error");
-    }
-}
+// Load farms when page opens
+loadFarms();
