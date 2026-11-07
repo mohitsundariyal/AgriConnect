@@ -11,4 +11,6 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
 
     // All expenses of one crop
     List<Expense> findByCropId(Long cropId);
+
+    boolean existsByCropId(Long cropId);
 }

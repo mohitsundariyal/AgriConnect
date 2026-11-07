@@ -1,9 +1,5 @@
 package com.agriconnect.agriconnect_backend.config;
 
-<<<<<<< HEAD
-public class CorsConfig {
-}
-=======
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,4 +15,3 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedHeaders("*");
     }
 }
->>>>>>> e948b00 (fix crop adding issue)

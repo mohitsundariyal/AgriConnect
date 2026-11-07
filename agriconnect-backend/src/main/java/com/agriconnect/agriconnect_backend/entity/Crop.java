@@ -17,7 +17,7 @@ public class Crop {
 
     @Column(nullable = false)
     private String cropName;
-    private String verity;
+    private String variety;
     private String season;
     private Double areaInAcres;
 
