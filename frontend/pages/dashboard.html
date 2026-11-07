@@ -6,12 +6,16 @@
     <title>AgriConnect - Dashboard</title>
     <!-- CSS file link -->
     <link rel="stylesheet" href="../css/dashboard.css">
+<base target="_blank">
 </head>
 <body>
 
     <!-- Top Navbar -->
     <header class="navbar">
-        <h1>🌾 AgriConnect</h1>
+        <div class="navbar-brand">
+            <span class="logo-icon">🌾</span>
+            <h1>AgriConnect</h1>
+        </div>
         <button id="logoutBtn" class="logout-btn">Logout</button>
     </header>
 
@@ -25,19 +29,31 @@
 
         <!-- Clickable Cards Grid -->
         <div class="cards-grid">
-            <div class="card" onclick="location.href='farms.html'">
-                <h3>🌱 My Farms</h3>
-                <p>View and manage your agricultural lands.</p>
+            <div class="card card-farms" onclick="location.href='farms.html'">
+                <div class="card-icon">🌱</div>
+                <div class="card-content">
+                    <h3>My Farms</h3>
+                    <p>View and manage your agricultural lands.</p>
+                </div>
+                <span class="card-arrow">→</span>
             </div>
 
-            <div class="card" onclick="location.href='crops.html'">
-                <h3>🌾 My Crops</h3>
-                <p>Check crop status, health, and updates.</p>
+            <div class="card card-crops" onclick="location.href='crops.html'">
+                <div class="card-icon">🌾</div>
+                <div class="card-content">
+                    <h3>My Crops</h3>
+                    <p>Check crop status, health, and updates.</p>
+                </div>
+                <span class="card-arrow">→</span>
             </div>
 
-            <div class="card" onclick="location.href='expenses.html'">
-                <h3>💰 Expenses</h3>
-                <p>Track your farming costs and budgets.</p>
+            <div class="card card-expenses" onclick="location.href='expenses.html'">
+                <div class="card-icon">💰</div>
+                <div class="card-content">
+                    <h3>Expenses</h3>
+                    <p>Track your farming costs and budgets.</p>
+                </div>
+                <span class="card-arrow">→</span>
             </div>
         </div>
     </main>
