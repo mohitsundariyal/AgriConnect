@@ -34,6 +34,7 @@ public class CropService {
         crop.setVariety(trimToNull(request.getVariety()));
         crop.setSeason(trimToNull(request.getSeason()));
         crop.setAreaInAcres(request.getAreaInAcres());
+        crop.setWateringIntervalDays(request.getWateringIntervalDays());
 
         return CropResponse.from(cropRepository.save(crop));
     }
@@ -56,6 +57,9 @@ public class CropService {
         crop.setVariety(trimToNull(request.getVariety()));
         crop.setSeason(trimToNull(request.getSeason()));
         crop.setAreaInAcres(request.getAreaInAcres());
+        if (request.getWateringIntervalDays() != null) {
+            crop.setWateringIntervalDays(request.getWateringIntervalDays());
+        }
         return CropResponse.from(cropRepository.save(crop));
     }
 

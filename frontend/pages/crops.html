@@ -6,16 +6,19 @@
     <title>AgriConnect - My Crops</title>
     <!-- Link to CSS file -->
     <link rel="stylesheet" href="../css/crops.css">
+<base target="_blank">
 </head>
 <body>
 
     <div class="container">
         <!-- Navigation Link -->
         <div class="nav-back">
-            <a href="dashboard.html">&larr; Back to Dashboard</a>
+            <a href="dashboard.html">← Back to Dashboard</a>
         </div>
 
-        <h1>🌾 My Crops</h1>
+        <h1><span class="logo-icon">
+    <img src="../icons/crop.png" alt="Crop Icon">
+</span> My Crops</h1>
 
         <!-- Message Box for Success / Errors -->
         <div id="messageBox" class="message hidden"></div>
@@ -59,6 +62,11 @@
                 <div class="input-group">
                     <label for="areaInAcres">Area (in Acres)</label>
                     <input type="number" step="any" id="areaInAcres" placeholder="e.g. 2.5">
+                </div>
+
+                <div class="input-group">
+                    <label for="wateringIntervalDays">Watering interval (days)</label>
+                    <input type="number" min="1" max="60" id="wateringIntervalDays" placeholder="e.g. 3">
                 </div>
 
                 <div class="button-group">

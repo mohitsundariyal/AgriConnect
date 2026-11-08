@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -20,6 +22,9 @@ public class Crop {
     private String variety;
     private String season;
     private Double areaInAcres;
+
+    private Integer wateringIntervalDays;
+    private LocalDate lastWateredDate;
 
     @ManyToOne
     @JoinColumn(name="farm_id")

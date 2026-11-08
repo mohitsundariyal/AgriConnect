@@ -1,8 +1,11 @@
 package com.agriconnect.agriconnect_backend.dto;
 
 import com.agriconnect.agriconnect_backend.entity.Crop;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,6 +17,10 @@ public class CropResponse {
     private String variety;
     private String season;
     private Double areaInAcres;
+    private Integer wateringIntervalDays;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate lastWateredDate;
 
     public static CropResponse from(Crop crop) {
         if (crop == null) {
@@ -26,6 +33,8 @@ public class CropResponse {
         r.setVariety(crop.getVariety());
         r.setSeason(crop.getSeason());
         r.setAreaInAcres(crop.getAreaInAcres());
+        r.setWateringIntervalDays(crop.getWateringIntervalDays());
+        r.setLastWateredDate(crop.getLastWateredDate());
         return r;
     }
 }

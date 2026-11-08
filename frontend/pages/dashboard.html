@@ -13,7 +13,9 @@
     <!-- Top Navbar -->
     <header class="navbar">
         <div class="navbar-brand">
-            <span class="logo-icon">🌾</span>
+            <span class="logo-icon"><span class="logo-icon">
+    <img src="../icons/crop.png" alt="Crop Icon">
+</span></span>
             <h1>AgriConnect</h1>
         </div>
         <button id="logoutBtn" class="logout-btn">Logout</button>
@@ -30,7 +32,9 @@
         <!-- Clickable Cards Grid -->
         <div class="cards-grid">
             <div class="card card-farms" onclick="location.href='farms.html'">
-                <div class="card-icon">🌱</div>
+                <div class="card-icon"><span class="logo-icon">
+    <img src="../icons/farm.png" alt="Crop Icon">
+</span></div>
                 <div class="card-content">
                     <h3>My Farms</h3>
                     <p>View and manage your agricultural lands.</p>
@@ -39,7 +43,9 @@
             </div>
 
             <div class="card card-crops" onclick="location.href='crops.html'">
-                <div class="card-icon">🌾</div>
+                <div class="card-icon"><span class="logo-icon">
+    <img src="../icons/crop.png" alt="Crop Icon">
+</span></div>
                 <div class="card-content">
                     <h3>My Crops</h3>
                     <p>Check crop status, health, and updates.</p>
@@ -48,7 +54,9 @@
             </div>
 
             <div class="card card-expenses" onclick="location.href='expenses.html'">
-                <div class="card-icon">💰</div>
+                <div class="card-icon"><span class="logo-icon">
+    <img src="../icons/Expense.png" alt="Crop Icon">
+</span></div>
                 <div class="card-content">
                     <h3>Expenses</h3>
                     <p>Track your farming costs and budgets.</p>
@@ -56,6 +64,13 @@
                 <span class="card-arrow">→</span>
             </div>
         </div>
+
+        <!-- Water Reminders Section -->
+        <section class="reminders-section" id="remindersSection">
+            <h2 class="reminders-title">Water Reminders</h2>
+            <p id="remindersSummary" class="reminders-summary">Loading reminders...</p>
+            <div id="remindersList" class="reminders-list"></div>
+        </section>
     </main>
 
     <!-- JS file link -->

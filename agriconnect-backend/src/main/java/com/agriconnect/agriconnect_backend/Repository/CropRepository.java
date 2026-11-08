@@ -11,4 +11,6 @@ public interface CropRepository extends JpaRepository<Crop, Long> {
 
     // All crops of one farm
     List<Crop> findByFarmId(Long farmId);
+
+    List<Crop> findByFarm_Farmer_Id(Long farmerId);
 }

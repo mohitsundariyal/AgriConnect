@@ -15,6 +15,7 @@ const cropNameInput = document.getElementById("cropName");
 const varietyInput = document.getElementById("variety");
 const seasonInput = document.getElementById("season");
 const areaInput = document.getElementById("areaInAcres");
+const wateringIntervalInput = document.getElementById("wateringIntervalDays");
 const formTitle = document.getElementById("formTitle");
 const submitBtn = document.getElementById("submitBtn");
 const cancelBtn = document.getElementById("cancelBtn");
@@ -103,12 +104,16 @@ function showCrops() {
     }
 
     cropsList.innerHTML = crops.map(function (crop) {
+        const wateringText = crop.wateringIntervalDays
+            ? `Water every ${crop.wateringIntervalDays} days`
+            : "Watering: default interval";
         return `
             <div class="card crop-card">
                 <h3>${escapeHtml(crop.cropName)}</h3>
                 <p>Variety: ${escapeHtml(crop.variety || "-")}</p>
                 <p>Season: ${escapeHtml(crop.season || "-")}</p>
                 <p>Area: ${crop.areaInAcres ?? "-"} acres</p>
+                <p>${wateringText}</p>
                 <div class="button-group">
                     <button class="btn-secondary" data-action="edit" data-id="${crop.id}">Edit</button>
                     <button class="btn-danger" data-action="delete" data-id="${crop.id}">Delete</button>
@@ -126,7 +131,8 @@ cropForm.addEventListener("submit", async function (event) {
         cropName: cropNameInput.value.trim(),
         variety: varietyInput.value.trim(),
         season: seasonInput.value,
-        areaInAcres: areaInput.value ? Number(areaInput.value) : null
+        areaInAcres: areaInput.value ? Number(areaInput.value) : null,
+        wateringIntervalDays: wateringIntervalInput.value ? Number(wateringIntervalInput.value) : null
     };
 
     const editingId = cropIdInput.value; // empty = adding new crop
@@ -160,6 +166,7 @@ cropsList.addEventListener("click", async function (event) {
         varietyInput.value = crop.variety || "";
         seasonInput.value = crop.season || "Kharif";
         areaInput.value = crop.areaInAcres ?? "";
+        wateringIntervalInput.value = crop.wateringIntervalDays ?? "";
         formTitle.textContent = "Edit Crop";
         submitBtn.textContent = "Update Crop";
         cancelBtn.classList.remove("hidden");
